@@ -1,6 +1,6 @@
 
 URLS = {
-    "tokyo_xs": "https://drive.google.com/file/d/1fZYNJRjnjYZzf3e21zZbGjW7V9uG3h03/view?usp=sharing,
+    "tokyo_xs": "https://drive.google.com/file/d/1fZYNJRjnjYZzf3e21zZbGjW7V9uG3h03/view?usp=sharing",
     "sf_xs": "https://drive.google.com/file/d/1mdHr_TPm0lmm4lek6GcMh-ZGRHE72IB4/view?usp=sharing",
     "gsv_xs": "https://drive.google.com/file/d/1DpYZGpXOkcv4XvqJs-j03RRBaHGqGjyG/view?usp=sharing"
 }
