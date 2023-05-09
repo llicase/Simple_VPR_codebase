@@ -17,7 +17,7 @@ def parse_arguments():
                         help="The effective batch size is (batch_size * img_per_place)")
     parser.add_argument("--min_img_per_place", type=int, default=4,
                         help="places with less than min_img_per_place are removed")
-    parser.add_argument("--max_epochs", type=int, default=15,
+    parser.add_argument("--max_epochs", type=int, default=5,
                         help="stop when training reaches max_epochs")
     parser.add_argument("--num_workers", type=int, default=8,
                         help="number of processes to use for data loading / preprocessing")
