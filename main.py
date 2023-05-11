@@ -11,6 +11,7 @@ from pytorch_lightning import loggers as pl_loggers
 import logging
 from os.path import join
 from pytorch_metric_learning.losses import SelfSupervisedLoss
+from pytorch_metric_learning.losses import TripletMarginLoss
 
 import utils
 import parser
