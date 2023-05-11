@@ -10,6 +10,7 @@ from pytorch_lightning.callbacks import ModelCheckpoint
 from pytorch_lightning import loggers as pl_loggers
 import logging
 from os.path import join
+from pytorch_metric_learning.losses import SelfSupervisedLoss
 
 import utils
 import parser
@@ -29,7 +30,7 @@ class LightningModel(pl.LightningModule):
         # Change the output of the FC layer to the desired descriptors dimension
         self.model.fc = torch.nn.Linear(self.model.fc.in_features, descriptors_dim)
         # Set the loss function
-        self.loss_fn = losses.TripletMarginLoss(margin=0.2)
+        self.loss_fn = SelfSupervisedLoss(losses.TripletMarginLoss(margin=0.2))
 
     def forward(self, images):
         descriptors = self.model(images)
