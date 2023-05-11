@@ -30,7 +30,7 @@ class LightningModel(pl.LightningModule):
         # Change the output of the FC layer to the desired descriptors dimension
         self.model.fc = torch.nn.Linear(self.model.fc.in_features, descriptors_dim)
         # Set the loss function
-        self.loss_fn = TripletMarginLoss(margin=0.2, reduction='none')
+        self.loss_fn = losses.TripletMarginLoss(margin=0.2, reduction='none')
 
     def forward(self, images):
         descriptors = self.model(images)
