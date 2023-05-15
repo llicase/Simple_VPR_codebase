@@ -12,6 +12,7 @@ import logging
 from os.path import join
 from pytorch_metric_learning.losses import SelfSupervisedLoss
 from pytorch_metric_learning.distances import CosineSimilarity
+from pytorch_metric_learning.distances import LpDistance
 
 import utils
 import parser
