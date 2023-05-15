@@ -9,6 +9,12 @@ def parse_arguments():
                         help="exp name")
     parser.add_argument("--checkpoint", type=str, default=None,
                         help="checkpoint path")
+    parser.add_argument("--margin", type=float, default=0.1, 
+                        help="Margin parameter of TripletMarginLoss")
+    parser.add_argument("--distance", type=str, default="LpDistance()", 
+                        help="Distance metric for TripletMarginLoss")
+    parser.add_argument("--smoothing", type=str, default="False", 
+                        help="Smooth loss function")
 
     # Training parameters
     parser.add_argument("--batch_size", type=int, default=64,
