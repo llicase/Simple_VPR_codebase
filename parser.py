@@ -13,7 +13,7 @@ def parse_arguments():
                         help="Margin parameter of TripletMarginLoss")
     parser.add_argument("--distance", type=str, default="LpDistance()", 
                         help="Distance metric for TripletMarginLoss")
-    parser.add_argument("--smoothing", type=str, default="False", 
+    parser.add_argument("--smoothing", type=bool, default=False, 
                         help="Smooth loss function")
 
     # Training parameters
