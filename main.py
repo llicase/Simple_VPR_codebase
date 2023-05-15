@@ -118,9 +118,11 @@ def get_datasets_and_dataloaders(args):
 if __name__ == '__main__':
     args = parser.parse_arguments()
     utils.setup_logging(join('logs', 'lightning_logs', args.exp_name), console='info')
+    
 
     train_dataset, val_dataset, test_dataset, train_loader, val_loader, test_loader = get_datasets_and_dataloaders(args)
-    model = LightningModel(val_dataset, test_dataset, args.descriptors_dim, args.num_preds_to_save, args.save_only_wrong_preds, args.margin, args.distance, args.smooth)
+    
+    model = LightningModel(val_dataset, test_dataset, args.descriptors_dim, args.num_preds_to_save, args.save_only_wrong_preds, args.margin, args.distance, args.smoothing)
     
     # Model params saving using Pytorch Lightning. Save the best 3 models according to Recall@1
     checkpoint_cb = ModelCheckpoint(
