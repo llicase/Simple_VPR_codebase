@@ -11,7 +11,7 @@ def parse_arguments():
                         help="checkpoint path")
     parser.add_argument("--margin", type=float, default=0.1, 
                         help="Margin parameter of TripletMarginLoss")
-    parser.add_argument("--distance", type=type, default=LpDistance, 
+    parser.add_argument("--distance", type=type, default=LpDistance(), 
                         help="Distance metric for TripletMarginLoss")
     parser.add_argument("--smoothing", type=bool, default=False, 
                         help="Smooth loss function")
