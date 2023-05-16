@@ -21,7 +21,7 @@ from datasets.train_dataset import TrainDataset
 
 
 class LightningModel(pl.LightningModule):
-    def __init__(self, val_dataset, test_dataset, descriptors_dim=512, num_preds_to_save=0, save_only_wrong_preds=True, marg=0.1, dist="LpDistance()", smooth=False):
+    def __init__(self, val_dataset, test_dataset, descriptors_dim=512, num_preds_to_save=0, save_only_wrong_preds=True, marg=0.1, dist=LpDistance(), smooth=False):
         super().__init__()
         self.val_dataset = val_dataset
         self.test_dataset = test_dataset
