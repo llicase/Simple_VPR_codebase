@@ -9,10 +9,8 @@ def parse_arguments():
                         help="exp name")
     parser.add_argument("--checkpoint", type=str, default=None,
                         help="checkpoint path")
-    parser.add_argument("--margin", type=float, default=0.1, 
-                        help="Margin parameter of TripletMarginLoss")
-    parser.add_argument("--smoothing", type=bool, default=False, 
-                        help="Smooth loss function")
+    parser.add_argument("--margin", type=float, default=28.6, 
+                        help="Margin parameter of ArcFaceLoss")
 
     # Training parameters
     parser.add_argument("--batch_size", type=int, default=64,
