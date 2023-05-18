@@ -61,9 +61,13 @@ class LightningModel(pl.LightningModule):
         loss = self.loss_function(descriptors, labels)  # Call the loss_function we defined above
         
         # Perform optimization steps
-        self.optimizers().zero_grad()
+        self.optimizers()[0].zero_grad()
         loss.backward()
-        self.optimizers().step()
+        self.optimizers()[0].step()
+        
+        self.optimizers()[1].zero_grad()
+        self.optimizers()[1].step()
+        
         
         self.log('loss', loss.item(), logger=True)
         return {'loss': loss}
