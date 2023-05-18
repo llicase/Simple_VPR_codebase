@@ -11,6 +11,8 @@ def parse_arguments():
                         help="checkpoint path")
     parser.add_argument("--margin", type=float, default=28.6, 
                         help="Margin parameter of ArcFaceLoss")
+    parser.add_argument("--scale", type=int, default=64, 
+                        help="Scale parameter of ArcFaceLoss")
 
     # Training parameters
     parser.add_argument("--batch_size", type=int, default=64,
