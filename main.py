@@ -32,7 +32,11 @@ class LightningModel(pl.LightningModule):
         # Change the output of the FC layer to the desired descriptors dimension
         self.model.fc = torch.nn.Linear(self.model.fc.in_features, descriptors_dim)
         # Set the loss function
-        self.loss_fn = losses.ArcFaceLoss(num_classes=22, embedding_size=512, margin=marg, scale=sc)
+        # self.loss_fn = losses.ArcFaceLoss(num_classes=22, embedding_size=512, margin=marg, scale=sc)
+        
+        # Initialize the loss function and optimizer
+        self.loss_fn = losses.ArcFaceLoss(num_classes=22, embedding_size=512, margin=marg, scale=sc).to(torch.device('cuda'))
+        loss_optimizer = torch.optim.SGD(self.loss_fn.parameters(), lr=0.01)
 
     def forward(self, images):
         descriptors = self.model(images)
@@ -57,6 +61,9 @@ class LightningModel(pl.LightningModule):
         # Feed forward the batch to the model
         descriptors = self(images)  # Here we are calling the method forward that we defined above
         loss = self.loss_function(descriptors, labels)  # Call the loss_function we defined above
+        
+        # Perform optimization step for the loss function
+        loss_optimizer.step()
         
         self.log('loss', loss.item(), logger=True)
         return {'loss': loss}
@@ -123,7 +130,7 @@ if __name__ == '__main__':
 
     train_dataset, val_dataset, test_dataset, train_loader, val_loader, test_loader = get_datasets_and_dataloaders(args)
     
-    model = LightningModel(val_dataset, test_dataset, args.descriptors_dim, args.num_preds_to_save, args.save_only_wrong_preds, args.margin, args.smoothing)
+    model = LightningModel(val_dataset, test_dataset, args.descriptors_dim, args.num_preds_to_save, args.save_only_wrong_preds, args.margin, args.scale)
     
     # Model params saving using Pytorch Lightning. Save the best 3 models according to Recall@1
     checkpoint_cb = ModelCheckpoint(
