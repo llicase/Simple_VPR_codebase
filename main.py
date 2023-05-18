@@ -21,7 +21,7 @@ from datasets.train_dataset import TrainDataset
 
 
 class LightningModel(pl.LightningModule):
-    def __init__(self, val_dataset, test_dataset, descriptors_dim=512, num_preds_to_save=0, save_only_wrong_preds=True, marg=0.1, smooth=False):
+    def __init__(self, val_dataset, test_dataset, descriptors_dim=512, num_preds_to_save=0, save_only_wrong_preds=True, marg=28.6, sc=64):
         super().__init__()
         self.val_dataset = val_dataset
         self.test_dataset = test_dataset
@@ -32,7 +32,7 @@ class LightningModel(pl.LightningModule):
         # Change the output of the FC layer to the desired descriptors dimension
         self.model.fc = torch.nn.Linear(self.model.fc.in_features, descriptors_dim)
         # Set the loss function
-        self.loss_fn = losses.TripletMarginLoss(margin=marg, triplets_per_anchor='all', distance=CosineSimilarity(), smooth_loss=smooth)
+        self.loss_fn = losses.ArcFaceLoss(num_classes=22, embedding_size=512, margin=marg, scale=sc)
 
     def forward(self, images):
         descriptors = self.model(images)
