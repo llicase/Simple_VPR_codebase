@@ -32,7 +32,9 @@ class LightningModel(pl.LightningModule):
         # Change the output of the FC layer to the desired descriptors dimension
         self.model.fc = torch.nn.Linear(self.model.fc.in_features, descriptors_dim)
         # Set the loss function
-        self.loss_fn = losses.ArcFaceLoss(num_classes=51600, embedding_size=512, margin=marg, scale=sc)
+        self.loss_fn = losses.ArcFaceLoss()
+        # List of the parameters to pass to the optimizer
+        self.arcface_params = list(self.loss_fn.parameters())
 
 
     def forward(self, images):
@@ -41,7 +43,7 @@ class LightningModel(pl.LightningModule):
 
     def configure_optimizers(self):
         model_optimizer = torch.optim.SGD(self.parameters(), lr=0.001, weight_decay=0.001, momentum=0.9)
-        loss_optimizer = torch.optim.SGD(self.loss_fn.parameters(), lr=0.01)
+        loss_optimizer = torch.optim.SGD(self.arcface_params, lr=0.01)
         return [model_optimizer, loss_optimizer]
 
     #  The loss function call (this method will be called at each training iteration)
@@ -59,17 +61,6 @@ class LightningModel(pl.LightningModule):
         # Feed forward the batch to the model
         descriptors = self(images)  # Here we are calling the method forward that we defined above
         loss = self.loss_function(descriptors, labels)  # Call the loss_function we defined above
-        
-        # Perform optimization steps
-        if optimizer_idx == 0:
-            self.optimizers()[0].zero_grad()
-            loss.backward()
-            self.optimizers()[0].step()
-        elif optimizer_idx == 1:
-            self.optimizers()[1].zero_grad()
-            loss.backward()
-            self.optimizers()[1].step()
-        
         
         self.log('loss', loss.item(), logger=True)
         return {'loss': loss}
