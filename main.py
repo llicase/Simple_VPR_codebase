@@ -174,7 +174,8 @@ if __name__ == '__main__':
     
     model = LightningModel(val_dataset, test_dataset, args.descriptors_dim, args.num_preds_to_save, args.save_only_wrong_preds, 
                            alpha_param=args.alpha, beta_param=args.beta, base_param=args.base, eps_param=args.eps, opt_param=args.opt, 
-                           loss_param=args.loss, pool_param=args.pool, miner_param=args.miner, lr_adam_param=args.lr_adam)
+                           loss_param=args.loss, pool_param=args.pool, miner_param=args.miner, lr_adam_param=args.lr_adam, 
+                           miner_marg=args.miner_marg, loss_marg=args.margin, swap_param=args.swap, smooth_param=args.smooth)
     
     # Model params saving using Pytorch Lightning. Save the best 3 models according to Recall@1
     checkpoint_cb = ModelCheckpoint(
