@@ -9,10 +9,26 @@ def parse_arguments():
                         help="exp name")
     parser.add_argument("--checkpoint", type=str, default=None,
                         help="checkpoint path")
-    parser.add_argument("--margin", type=float, default=28.6, 
-                        help="Margin parameter of ArcFaceLoss")
-    parser.add_argument("--scale", type=int, default=64, 
-                        help="Scale parameter of ArcFaceLoss")
+    
+    # Parameters
+    parser.add_argument("--alpha", type=float, default=1, 
+                        help="alpha parameter of multi similarity")
+    parser.add_argument("--beta", type=float, default=50, 
+                        help="beta parameter of multi similarity")
+    parser.add_argument("--base", type=float, default=0.0, 
+                        help="base parameter of multi similarity")
+    parser.add_argument("--eps", type=float, default=0.1, 
+                        help="eps parameter of multi similarity miner")
+    parser.add_argument("--miner_marg", type=float, default=0.2, 
+                        help="margin parameter of triplet margin miner")
+    parser.add_argument("--lr_adam", type=float, default=0.0001,
+                        help="learning rate adam optimizer")
+    parser.add_argument("--margin", type=float, default=0.1, 
+                        help="Margin parameter of TripletMarginLoss")
+    parser.add_argument("--swap", type=bool, default=False, 
+                        help="swap parameter of TripletMarginLoss")
+    parser.add_argument("--smooth", type=bool, default=False, 
+                        help="smooth_loss parameter of TripletMarginLoss")
 
     # Training parameters
     parser.add_argument("--batch_size", type=int, default=64,
@@ -29,6 +45,15 @@ def parse_arguments():
     # Architecture parameters
     parser.add_argument("--descriptors_dim", type=int, default=512,
                         help="dimensionality of the output descriptors")
+    parser.add_argument("--opt", type=str, default="sgd", 
+                        help="type of optimizer")
+    parser.add_argument("--loss", type=str, default="cl", 
+                        help="type of loss function")
+    parser.add_argument("--pool", type=str, default=None,
+                        help="type of pooling")
+    parser.add_argument("--miner", type=str, default=None,
+                        help="type of miner")
+    
     
     # Visualizations parameters
     parser.add_argument("--num_preds_to_save", type=int, default=0,
