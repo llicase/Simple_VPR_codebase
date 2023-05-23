@@ -32,7 +32,8 @@ class GeM(torch.nn.Module):
 class LightningModel(pl.LightningModule):
     def __init__(self, val_dataset, test_dataset, descriptors_dim=512, num_preds_to_save=0, save_only_wrong_preds=True, 
                  alpha_param=1, beta_param=50, base_param=0.0, eps_param=0.1, opt_param="sgd", loss_param="cl", 
-                 pool_param="None", miner_param="None", lr_adam_param=0.0001, loss_marg=0.1, miner_marg=0.2, swap_param=False, smooth_param=False):
+                 pool_param="None", miner_param="None", lr_adam_param=0.0001, loss_marg=0.1, miner_marg=0.2, swap_param=False, smooth_param=False,
+                wd_adamw_param=0.01):
         super().__init__()
         self.val_dataset = val_dataset
         self.test_dataset = test_dataset
@@ -83,7 +84,7 @@ class LightningModel(pl.LightningModule):
         elif self.opt_param == "adam":
             optimizers = torch.optim.Adam(self.parameters(), lr=self.lr_adam_param, betas=(0.9, 0.999), eps=1e-08, weight_decay=0)
         elif self.opt_param == "adamw":
-            optimizers = torch.optim.AdamW(self.parameters(), lr=0.0001, betas=(0.9, 0.999), eps=1e-08, weight_decay=0.01)
+            optimizers = torch.optim.AdamW(self.parameters(), lr=self.lr_adam_param, betas=(0.9, 0.999), eps=1e-08, weight_decay=self.wd_adamw_param)
         elif self.opt_param == "adamax":
             optimizers = torch.optim.Adamax(self.parameters(), lr=0.002, betas=(0.9, 0.999), eps=1e-08, weight_decay=0)
         elif self.opt_param == "amsgrad":
@@ -175,7 +176,8 @@ if __name__ == '__main__':
     model = LightningModel(val_dataset, test_dataset, args.descriptors_dim, args.num_preds_to_save, args.save_only_wrong_preds, 
                            alpha_param=args.alpha, beta_param=args.beta, base_param=args.base, eps_param=args.eps, opt_param=args.opt, 
                            loss_param=args.loss, pool_param=args.pool, miner_param=args.miner, lr_adam_param=args.lr_adam, 
-                           miner_marg=args.miner_marg, loss_marg=args.margin, swap_param=args.swap, smooth_param=args.smooth)
+                           miner_marg=args.miner_marg, loss_marg=args.margin, swap_param=args.swap, smooth_param=args.smooth, 
+                           wd_adamw_param=args.wd_adamw)
     
     # Model params saving using Pytorch Lightning. Save the best 3 models according to Recall@1
     checkpoint_cb = ModelCheckpoint(
