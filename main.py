@@ -48,6 +48,7 @@ class LightningModel(pl.LightningModule):
         self.miner_marg = miner_marg
         self.swap_param = swap_param
         self.smooth_param = smooth_param
+        self.wd_adamw_param = wd_adamw_param
 
         
         #set the miner
