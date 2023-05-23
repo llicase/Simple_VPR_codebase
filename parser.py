@@ -29,6 +29,8 @@ def parse_arguments():
                         help="swap parameter of TripletMarginLoss")
     parser.add_argument("--smooth", type=bool, default=False, 
                         help="smooth_loss parameter of TripletMarginLoss")
+    parser.add_argument("--wd_adamw", type=float, default=0.01,
+                        help="weight decay adam optimizer")
 
     # Training parameters
     parser.add_argument("--batch_size", type=int, default=64,
